@@ -3,15 +3,18 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+const production = process.env.NODE_ENV === 'production'
+  || process.argv.some(arg => arg === '-p');
+
 const config = {
-  devtool: 'eval-source-map',
+  devtool: production ? false : 'eval-source-map',
   entry: {
     app: './src/index.js',
     vendor: ['react', 'react-dom']
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'assets/js/[name].[hash].js'
+    filename: production ? 'assets/js/[name].[chunkhash].js' : 'assets/js/[name].[hash].js'
   },
   module: {
     rules: [
@@ -37,6 +40,9 @@ const config = {
     historyApiFallback: true
   },
   plugins:[
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development')
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest']
     }),

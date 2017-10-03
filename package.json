@@ -4,7 +4,8 @@
   "description": "Youtube video app",
   "main": "./src/index.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --progress"
+    "start": "webpack-dev-server --hot --progress",
+    "build": "webpack -p --progress"
   },
   "author": "Cagdas ISIK",
   "license": "MIT",

@@ -42,7 +42,6 @@ class VideoDetail extends Component {
 
   render () {
     const {videoDetail} = this.state;
-    console.log(videoDetail);
     return (
       <div className="col-md-8">
         { Object.keys(videoDetail).length > 0 && (
