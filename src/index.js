@@ -1,22 +1,25 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import apiService from './api';
+import debounce from 'lodash/debounce';
+import {API_KEY} from './config';
+import {youtubeApiSearchService as SearchService} from './api';
 import SearchArea from './components/search-area';
 import VideoDetail from './components/video-detail';
 import VideoList from './components/video-list';
 
 import './style/app.scss';
 
-const API_KEY = 'AIzaSyBbBlVrJd5zd6HC-EEahsuDz_40ys2O1EU';
-
 class App extends Component {
   constructor (props) {
     super(props);
 
     this.state = {
-      videos: [],
-      term: 'Çağdaş'
+      term: 'Ahmet Kaya',
+      videoId: '',
+      videos: []
     };
+
+    this.getVideoList = debounce(this.getVideoList, 500);
   }
 
   componentWillMount () {
@@ -24,10 +27,19 @@ class App extends Component {
   }
 
   getVideoList () {
-    apiService({key: API_KEY, term: this.state.term}, (response) => {
+    SearchService({key: API_KEY, term: this.state.term}, (response) => {
       const videos = response.items;
       this.setState({videos});
+
+      if(Object.keys(videos).length > 0) {
+        this.initVideoDetail(videos[0]);
+      }
     });
+  }
+
+  initVideoDetail (video) {
+    const videoId = video.id.videoId;
+    this.setState({videoId});
   }
 
   setSearchTerm (term) {
@@ -36,13 +48,18 @@ class App extends Component {
     });
   }
 
+  handleVideoId (videoId) {
+    this.setState({videoId});
+  }
+
   render () {
     return (
       <div className="video-app container">
-        <SearchArea value={this.state.term} handleInputChange={(term) => this.setSearchTerm(term)} />
+        <SearchArea value={this.state.term}
+                    handleInputChange={(term) => this.setSearchTerm(term)} />
         <div className="video-container row">
-          <VideoDetail />
-          <VideoList videos={this.state.videos} />
+          <VideoDetail videoId={this.state.videoId} />
+          <VideoList videos={this.state.videos} handleVideoId={(id) => this.handleVideoId(id)} />
         </div>
       </div>
     );

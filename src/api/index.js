@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const youtubeApiService = (arg, callback) => {
+export const youtubeApiSearchService = (arg, callback) => {
   return axios({
     method: 'get',
-    url:'https://www.googleapis.com/youtube/v3/search',
+    url: 'https://www.googleapis.com/youtube/v3/search',
     params: {
       part: 'snippet',
       order: 'viewCount',
@@ -23,4 +23,22 @@ const youtubeApiService = (arg, callback) => {
   });
 };
 
-export default youtubeApiService;
+export const youtubeApiVideoService = (arg, callback) => {
+  return axios({
+    method: 'get',
+    url: 'https://www.googleapis.com/youtube/v3/videos',
+    params: {
+      part: 'id,snippet',
+      id: arg.id,
+      key: arg.key
+    }
+  })
+  .then(response => {
+    if(response.status === 200) {
+      callback(response.data);
+    }
+  })
+  .catch(error => {
+    console.log(error);
+  });
+};
