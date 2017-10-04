@@ -7,9 +7,11 @@ export const youtubeApiSearchService = (arg, callback) => {
     params: {
       part: 'snippet',
       order: 'viewCount',
-      q: arg.term,
+      q: arg.term || '',
+      maxResults: arg.maxResults,
       type: 'video',
       videoDefinition: 'high',
+      pageToken: arg.pageToken,
       key: arg.key
     }
   })
@@ -28,7 +30,7 @@ export const youtubeApiVideoService = (arg, callback) => {
     method: 'get',
     url: 'https://www.googleapis.com/youtube/v3/videos',
     params: {
-      part: 'id,snippet',
+      part: 'id,snippet,statistics',
       id: arg.id,
       key: arg.key
     }

@@ -16,4 +16,35 @@
       cursor: pointer;
     }
   }
+  
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+
+    button {
+      min-width: 60px;
+
+      &:not([disabled]) {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .video-detail {
+    .head {
+      margin-top: 20px;
+    }
+
+    .description {
+      margin-top: 20px;
+      font-size: 0.9em;
+    }
+
+    .showmore-btn {
+      width: 100%;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  }
 }
