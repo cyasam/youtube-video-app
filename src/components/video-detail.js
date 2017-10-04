@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import {convertToHTML} from '../utils';
-import {API_KEY,DESCRIPTION_HEIGHT} from '../config';
-import {youtubeApiVideoService as VideoService} from '../api';
+import {DESCRIPTION_HEIGHT} from '../config';
 import NumberFormat from 'react-number-format';
 import AnimateHeight from 'react-animate-height';
 
@@ -10,77 +9,61 @@ class VideoDetail extends Component {
     super(props);
 
     this.state = {
-      videoId: '',
-      videoDetail: {},
       descOpen: false,
       descHeight: DESCRIPTION_HEIGHT
     };
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillMount () {
     this.setState({
       descOpen: false,
-      descHeight: DESCRIPTION_HEIGHT,
-      videoId: nextProps.videoId
+      descHeight: DESCRIPTION_HEIGHT
     });
-    this.getVideoDetail(nextProps.videoId);
-  }
-
-  componentDidUpdate () {
-    let player = document.getElementById('player');
-    if(player) {
-      this.handleVideoResize(player);
-    }
-  }
-
-  handleVideoResize (player) {
-    let width = player.parentNode.clientWidth;
-
-    player.setAttribute('width', width);
-    player.setAttribute('height', width * 0.56);
-  }
-
-  getVideoDetail (id) {
-    if(id !== this.state.videoId) {
-      VideoService({key: API_KEY, id}, (response) => {
-        const videoDetail = response.items[0];
-        this.setState({videoDetail});
-      });
-    }
   }
 
   render () {
-    const {videoDetail} = this.state;
+    const {video} = this.props;
+    let result;
+
+    if(video.length === 0){
+      result = <div>Loading...</div>;
+    } else {
+      result = (
+        <div className="video-detail">
+          <div className="embed-responsive embed-responsive-16by9">
+            <iframe className="embed-responsive-item" src={"https://www.youtube.com/embed/" + video.id} allowFullScreen />
+          </div>
+
+          <h3 className="head">{video.snippet.title}</h3>
+          <NumberFormat value={video.statistics.viewCount} displayType={'text'} thousandSeparator={true} suffix={' views'} />
+          <AnimateHeight
+            className="description"
+            duration={ 500 }
+            height={ this.state.descHeight }
+          >
+            <p dangerouslySetInnerHTML={{ __html: convertToHTML(video.snippet.description)}} />
+          </AnimateHeight>
+
+          {this.state.descOpen !== true &&
+          <button className="showmore-btn btn btn-outline-secondary"
+                  onClick={() => {
+                    if(!this.state.descOpen){
+                      this.setState({descHeight: 'auto'});
+                    }
+
+                    this.setState({
+                      descOpen: !this.state.descOpen
+                    });
+                  }}
+          >Show More...</button>
+          }
+        </div>
+      );
+    }
+
     return (
       <div className="col-md-8">
-        { Object.keys(videoDetail).length > 0 && (
-          <div className="video-detail">
-            <iframe id="player" src={"https://www.youtube.com/embed/" + this.state.videoId} />
-            <h3 className="head">{videoDetail.snippet.title}</h3>
-            <NumberFormat value={videoDetail.statistics.viewCount} displayType={'text'} thousandSeparator={true} suffix={' views'} />
-            <AnimateHeight
-              className="description"
-              duration={ 500 }
-              height={ this.state.descHeight }
-            >
-              <p dangerouslySetInnerHTML={{ __html: convertToHTML(videoDetail.snippet.description)}} />
-            </AnimateHeight>
-
-            {this.state.descOpen !== true &&
-            <button className="showmore-btn btn btn-outline-secondary"
-                    onClick={() => {
-                      if(!this.state.descOpen){
-                        this.setState({descHeight: 'auto'});
-                      }
-
-                      this.setState({
-                        descOpen: !this.state.descOpen
-                      });
-                    }}
-            >Show More...</button>
-            }
-          </div>
-        )}
+        {result}
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const youtubeApiSearchService = (arg, callback) => {
+export const YTApiSearchService = (arg, callback) => {
   return axios({
     method: 'get',
     url: 'https://www.googleapis.com/youtube/v3/search',
@@ -25,7 +25,7 @@ export const youtubeApiSearchService = (arg, callback) => {
   });
 };
 
-export const youtubeApiVideoService = (arg, callback) => {
+export const YTApiVideoService = (arg, callback) => {
   return axios({
     method: 'get',
     url: 'https://www.googleapis.com/youtube/v3/videos',

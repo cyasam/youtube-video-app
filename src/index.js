@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash/debounce';
 import {API_KEY,API_MAX_RESULT} from './config';
-import {youtubeApiSearchService as SearchService} from './api';
+import {YTApiSearchService as SearchService,YTApiVideoService as VideoService} from './api';
 import SearchArea from './components/search-area';
 import VideoDetail from './components/video-detail';
 import VideoList from './components/video-list';
@@ -15,16 +15,16 @@ class App extends Component {
 
     this.state = {
       term: 'Vevo',
-      videoId: '',
+      selectedVideo: [],
       videos: [],
       pageTokens: {
-        nextToken: '',
-        prevToken: ''
+        nextToken: null,
+        prevToken: null
       },
       maxResults: API_MAX_RESULT
     };
 
-    this.getVideoList = debounce(this.getVideoList, 500);
+    this.getVideoList = debounce(this.getVideoList, 400);
   }
 
   componentWillMount () {
@@ -39,14 +39,18 @@ class App extends Component {
       this.createPageToken(response);
 
       if(Object.keys(videos).length > 0) {
-        this.initVideoDetail(videos[0]);
+        this.getVideoDetail(videos[0].id.videoId);
       }
     });
   }
 
-  initVideoDetail (video) {
-    const videoId = video.id.videoId;
-    this.setState({videoId});
+  getVideoDetail (id) {
+    if(id !== this.state.videoId) {
+      VideoService({key: API_KEY, id}, (response) => {
+        const selectedVideo = response.items[0];
+        this.setState({selectedVideo});
+      });
+    }
   }
 
   setSearchTerm (term) {
@@ -56,7 +60,7 @@ class App extends Component {
   }
 
   handleVideoId (videoId) {
-    this.setState({videoId});
+    this.getVideoDetail(videoId);
   }
 
   createPageToken (response) {
@@ -87,7 +91,7 @@ class App extends Component {
         <SearchArea value={this.state.term}
                     handleInputChange={(term) => this.setSearchTerm(term)} />
         <div className="video-container row">
-          <VideoDetail videoId={this.state.videoId} />
+          <VideoDetail video={this.state.selectedVideo} />
           <VideoList videos={this.state.videos}
                      maxResults={this.state.maxResults}
                      pageTokens={this.state.pageTokens}
