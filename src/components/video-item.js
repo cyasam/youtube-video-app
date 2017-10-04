@@ -4,7 +4,7 @@ const VideoItem = ({video}) => {
   return (
     <div className="video-item media">
       <div className="media-left">
-        <img className="media-object"
+        <img className="d-flex mr-3"
              src={video.thumbnails.default.url}
              width={video.thumbnails.default.width}
              height={video.thumbnails.default.height}
