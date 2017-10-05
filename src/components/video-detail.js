@@ -74,7 +74,7 @@ class VideoDetail extends Component {
     }
 
     return (
-      <div className="video-detail-wrapper col-md-8">
+      <div className="video-detail-wrapper col-lg-8 col-md-12">
         {result}
       </div>
     );

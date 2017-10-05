@@ -7,13 +7,11 @@ const VideoItem = ({video}) => {
   }
   return (
     <div className="video-item media">
-      <div className="media-left">
-        <img className="mr-3"
-             src={video.snippet.thumbnails.default.url}
-             width={video.snippet.thumbnails.default.width}
-             height={video.snippet.thumbnails.default.height}
-             alt={video.snippet.title} />
-      </div>
+      <img className="d-flex mr-3"
+           src={video.snippet.thumbnails.default.url}
+           width={video.snippet.thumbnails.default.width}
+           height={video.snippet.thumbnails.default.height}
+           alt={video.snippet.title} />
       <div className="media-body">
         <div className="video-title media-heading">{video.snippet.title}</div>
         <div className="channel-name">{video.snippet.channelTitle}</div>

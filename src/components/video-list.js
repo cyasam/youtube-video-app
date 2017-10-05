@@ -21,7 +21,7 @@ const VideoList = (props) => {
             </li>
           ))}
         </ul>
-        
+
         <div className="pager">
           <button type="button"
                   className="btn btn-outline-secondary btn-sm"
@@ -42,7 +42,7 @@ const VideoList = (props) => {
   }
 
   return (
-    <div className="video-list-wrapper col-md-4">
+    <div className="video-list-wrapper col-lg-4 col-md-12">
       {result}
     </div>
   );

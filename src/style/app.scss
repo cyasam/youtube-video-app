@@ -7,9 +7,12 @@ body {
   color: rgba($primary-color, 0.9);
 }
 
-.video-app {
+#app {
   margin-top:20px;
   margin-bottom:20px;
+}
+
+.video-app {
 
   .loading-wrapper {
     display: flex;
@@ -35,10 +38,6 @@ body {
 
   .video-container {
     min-height: 300px;
-  }
-
-  .video-container-inner {
-    width: 100%;
   }
 
   .video-list-wrapper,
