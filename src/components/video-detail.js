@@ -22,11 +22,11 @@ class VideoDetail extends Component {
   }
 
   render () {
-    const {video} = this.props;
+    const {video, channel} = this.props;
     let result;
 
-    if(video.length === 0){
-      result = <div>Loading...</div>;
+    if(video.length === 0 || Object.keys(channel).length === 0){
+      result = null;
     } else {
       result = (
         <div className="video-detail">
@@ -34,8 +34,20 @@ class VideoDetail extends Component {
             <iframe className="embed-responsive-item" src={"https://www.youtube.com/embed/" + video.id} allowFullScreen />
           </div>
 
-          <h3 className="head">{video.snippet.title}</h3>
-          <NumberFormat value={video.statistics.viewCount} displayType={'text'} thousandSeparator={true} suffix={' views'} />
+          <h4 className="head">{video.snippet.title}</h4>
+          <div className="video-info">
+            <span className="channel-info media mr-4">
+              <span className="mr-2"><img src={channel.snippet.thumbnails.default.url} alt={channel.snippet.title} /></span>
+              <span className="media-body">{channel.snippet.title}</span>
+            </span>
+            <span className="view-info">
+              <i className="fa fa-user-o fa-lg mr-2" aria-hidden="true" />
+              <NumberFormat value={video.statistics.viewCount}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            suffix={' views'} />
+            </span>
+          </div>
           <AnimateHeight
             className="description"
             duration={ 500 }
@@ -62,7 +74,7 @@ class VideoDetail extends Component {
     }
 
     return (
-      <div className="col-md-8">
+      <div className="video-detail-wrapper col-md-8">
         {result}
       </div>
     );

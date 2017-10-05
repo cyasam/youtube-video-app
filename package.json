@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "scripts": {
     "clean": "rimraf -d dist",
-    "start": "webpack-dev-server --hot --progress",
+    "start": "webpack-dev-server --hot --progress --port 5555",
     "build": "yarn clean && webpack -p --progress"
   },
   "author": "Cagdas ISIK",

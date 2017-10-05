@@ -44,3 +44,23 @@ export const YTApiVideoService = (arg, callback) => {
     console.log(error);
   });
 };
+
+export const YTApiChannelService = (arg, callback) => {
+  return axios({
+    method: 'get',
+    url: 'https://www.googleapis.com/youtube/v3/channels',
+    params: {
+      part: 'snippet',
+      id: arg.channelId,
+      key: arg.key
+    }
+  })
+    .then(response => {
+      if(response.status === 200) {
+        callback(response.data);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};

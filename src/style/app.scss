@@ -1,6 +1,28 @@
+@import 'loading';
+
+$primary-color: #111111;
+$secondary-color: rgba($primary-color, 0.7);
+
+body {
+  color: rgba($primary-color, 0.9);
+}
+
 .video-app {
   margin-top:20px;
   margin-bottom:20px;
+
+  .loading-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 400px;
+
+    svg {
+      width: 200px;
+      height:auto;
+    }
+  }
 
   img {
     max-width: 100%;
@@ -11,9 +33,43 @@
     margin-bottom: 40px;
   }
 
+  .video-container {
+    min-height: 300px;
+  }
+
+  .video-container-inner {
+    width: 100%;
+  }
+
+  .video-list-wrapper,
+  .video-detail-wrapper {
+    position: relative;
+  }
+
   .video-list {
+    font-size: 0.9em;
+    color: $secondary-color;
+
     li {
       cursor: pointer;
+      transition: all 0.4s;
+
+      &:hover {
+        background-color: rgba($primary-color, 0.04);
+      }
+    }
+
+    .video-title {
+      font-size: 1em;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .channel-name,
+    .video-view-number {
+      margin-top: 5px;
+      font-size: 0.8em;
+      color: $secondary-color;
     }
   }
   
@@ -34,6 +90,7 @@
   .video-detail {
     .head {
       margin-top: 20px;
+      color: rgba($primary-color, 0.9);
     }
 
     .description {
@@ -45,6 +102,30 @@
       width: 100%;
       margin-top: 20px;
       cursor: pointer;
+    }
+  }
+
+  .video-info {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    font-size: 0.9em;
+
+
+    .channel-info {
+      align-items: center;
+      color: $secondary-color;
+
+      img {
+        width: 30px;
+        height: auto;
+        align-self: center;
+        border-radius: 100%;
+      }
+    }
+
+    .view-info {
+      color: $secondary-color;
     }
   }
 }
