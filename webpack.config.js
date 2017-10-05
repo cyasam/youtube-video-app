@@ -2,9 +2,29 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const production = process.env.NODE_ENV === 'production'
   || process.argv.some(arg => arg === '-p');
+
+const styleModule =  {
+  dev: {
+    loader: [
+      'style-loader',
+      {loader: 'css-loader', options: {sourceMap: true}},
+      {loader: 'resolve-url-loader', options: {keepQuery: true}},
+      {loader: 'sass-loader', options: {sourceMap: true}}
+    ],
+    test: /\.scss?$/
+  },
+  prod: {
+    use: ExtractTextPlugin.extract({
+      fallback: 'style-loader',
+      use: ['css-loader', 'sass-loader']
+    }),
+    test: /\.(scss|css)$/
+  }
+};
 
 const config = {
   devtool: production ? false : 'eval-source-map',
@@ -23,13 +43,7 @@ const config = {
         test: /\.js$/,
         exclude: '/node_modules'
       },
-      {
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
-        }),
-        test: /\.(scss|css)$/
-      }
+      production ? styleModule.prod : styleModule.dev
     ],
   },
   resolve: {
@@ -49,8 +63,9 @@ const config = {
     new HtmlWebpackPlugin({
       template: './src/template/index.html'
     }),
-    new ExtractTextPlugin('assets/css/app.css')
-  ]
+    production ? new ExtractTextPlugin('assets/css/app.css') : null,
+    production ? new UglifyJsPlugin() : null
+  ].filter(p => p)
 };
 
 module.exports = config;
