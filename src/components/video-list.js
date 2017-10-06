@@ -4,7 +4,7 @@ import VideoItem from './video-item';
 const VideoList = (props) => {
   let result;
 
-  const {videos,pageTokens,maxResults,handleVideoId,handleChannelId,handlePagerToken} = props;
+  const {videos,selectedVideoId,pageTokens,maxResults,handleVideoId,handleChannelId,handlePagerToken} = props;
   const {nextToken, prevToken} = pageTokens;
 
   if (videos.length) {
@@ -12,7 +12,7 @@ const VideoList = (props) => {
       <div className="video-list">
         <ul className="list-group">
           {videos.map((item, i) => (
-            <li key={i} className="list-group-item"
+            <li key={i} className={"list-group-item" + (item.id.videoId === selectedVideoId ? ' active' : '')}
                 onClick={() => {
                   handleVideoId(item.id.videoId);
                   handleChannelId(item.snippet.channelId);
