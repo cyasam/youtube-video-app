@@ -6,6 +6,9 @@ This project is a simple React app powered by Youtube API.
 
 ## Getting Started
 
+First you must install Yarn if you don't have.
+
+- `npm install -g yarn`
 - `git clone https://github.com/cyasam/youtube-video-app.git`
 - `yarn install`
 - `yarn start`
