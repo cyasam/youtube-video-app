@@ -81,14 +81,12 @@ class App extends Component {
   }
 
   getVideoDetail (id) {
-    if(id !== this.state.videoId) {
-      YTApiVideoService({key: API_KEY, id}, (response) => {
-        const selectedVideo = response.items[0];
-        this.setState({selectedVideo});
+    YTApiVideoService({key: API_KEY, id}, (response) => {
+      const selectedVideo = response.items[0];
+      this.setState({selectedVideo});
 
-        this.handleLoading(false);
-      });
-    }
+      this.handleLoading(false);
+    });
   }
 
   initVideoDetail (video) {
@@ -105,9 +103,11 @@ class App extends Component {
   }
 
   handleVideoId (videoId) {
-    this.handleLoading(true);
+    if(videoId !== this.state.selectedVideo.id) {
+      this.handleLoading(true);
 
-    this.getVideoDetail(videoId);
+      this.getVideoDetail(videoId);
+    }
   }
 
   createPageToken (response) {
@@ -155,6 +155,7 @@ class App extends Component {
           <VideoList videos={this.state.videos}
                      maxResults={this.state.maxResults}
                      pageTokens={this.state.pageTokens}
+                     selectedVideoId = {this.state.selectedVideo.id}
                      handlePagerToken={(pager) => this.handlePagerToken(pager)}
                      handleChannelId={(channelId) => this.handleChannelId(channelId)}
                      handleVideoId={(id) => this.handleVideoId(id)} />
