@@ -94,6 +94,10 @@ body {
     .description {
       margin-top: 20px;
       font-size: 0.9em;
+
+      p {
+        word-break: break-word;
+      }
     }
 
     .showmore-btn {

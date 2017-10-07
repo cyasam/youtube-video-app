@@ -1,4 +1,4 @@
-export const convertToHTML = (string) => {
+export const ConvertToHTML = (string) => {
   return string.replace(/(?:\r\n|\r|\n)/g, '<br />');
 };
 

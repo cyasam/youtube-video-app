@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {convertToHTML} from '../utils';
+import {ConvertToHTML} from '../utils';
 import {DESCRIPTION_HEIGHT} from '../config';
 import NumberFormat from 'react-number-format';
 import AnimateHeight from 'react-animate-height';
@@ -53,7 +53,7 @@ class VideoDetail extends Component {
             duration={ 500 }
             height={ this.state.descHeight }
           >
-            <p dangerouslySetInnerHTML={{ __html: convertToHTML(video.snippet.description)}} />
+            <p dangerouslySetInnerHTML={{ __html: ConvertToHTML(video.snippet.description)}} />
           </AnimateHeight>
 
           {this.state.descOpen !== true &&
