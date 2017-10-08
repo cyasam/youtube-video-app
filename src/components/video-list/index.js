@@ -7,15 +7,19 @@ class VideoList extends Component {
     super(props);
 
     this.state = {
-      loading: true
+      loading: true,
+      videos: []
+    };
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if(nextProps.loading !== this.state.loading) {
+      this.setState({loading: true});
     }
   }
-  componentWillReceiveProps (nextProps) {
-    setTimeout(() => {
-      this.setState({
-        loading: nextProps.loading
-      })
-    }, 300);
+
+  handleImageLoad (loading) {
+    this.setState({loading});
   }
 
   render () {
@@ -24,42 +28,41 @@ class VideoList extends Component {
     const {videos, selectedVideoId, pageTokens, maxResults, handleVideoId, handleChannelId, handlePagerToken} = this.props;
     const {nextToken, prevToken} = pageTokens;
 
-    if (this.state.loading) {
-      result = <Loading />;
-    } else {
-      if (videos.length) {
-        result = (
-          <div className="video-list">
-            <ul className="list-group">
-              {videos.map((item, i) => (
-                <li key={i} className={"list-group-item" + (item.id.videoId === selectedVideoId ? ' active' : '')}
-                    onClick={() => {
-                      handleVideoId(item.id.videoId);
-                      handleChannelId(item.snippet.channelId);
-                    }}>
-                  <VideoItem video={item}/>
-                </li>
-              ))}
-            </ul>
+    if (videos.length) {
+      result = (
+        <div className="video-list">
+          {this.state.loading === true && (
+          <Loading/>
+          )}
+          <ul className={"list-group" + (this.state.loading ? ' hide' : '')}>
+            {videos.map((item, i) => (
+              <li key={i} className={"list-group-item" + (item.id.videoId === selectedVideoId ? ' active' : '')}
+                  onClick={() => {
+                    handleVideoId(item.id.videoId);
+                    handleChannelId(item.snippet.channelId);
+                  }}>
+                <VideoItem video={item} handleImageLoad={(imageLoading) => this.handleImageLoad(imageLoading)}/>
+              </li>
+            ))}
+          </ul>
 
-            <div className="pager">
-              <button type="button"
-                      className="btn btn-outline-secondary btn-sm"
-                      onClick={() => handlePagerToken(prevToken)}
-                      disabled={!prevToken}>Prev
-              </button>
-              <button type="button"
-                      className="btn btn-outline-secondary btn-sm"
-                      onClick={() => handlePagerToken(nextToken)}
-                      disabled={nextToken && nextToken.length === 0 ||
-                      videos.length < Number(maxResults)}>Next
-              </button>
-            </div>
+          <div className={"pager" + (this.state.loading ? ' hide' : '')}>
+            <button type="button"
+                    className="btn btn-outline-secondary btn-sm"
+                    onClick={() => handlePagerToken(prevToken)}
+                    disabled={!prevToken}>Prev
+            </button>
+            <button type="button"
+                    className="btn btn-outline-secondary btn-sm"
+                    onClick={() => handlePagerToken(nextToken)}
+                    disabled={nextToken && nextToken.length === 0 ||
+                    videos.length < Number(maxResults)}>Next
+            </button>
           </div>
-        );
-      } else {
-        result = <div>No videos found...</div>;
-      }
+        </div>
+      );
+    } else {
+      result = <div>No videos found...</div>;
     }
 
     return (

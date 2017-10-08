@@ -29,7 +29,7 @@ class App extends Component {
       maxResults: API_MAX_RESULT
     };
 
-    this.getVideoList = debounce(this.getVideoList, 400);
+    this.handleSearch = debounce(this.handleSearch, 400);
   }
 
   componentWillMount () {
@@ -78,8 +78,6 @@ class App extends Component {
   }
 
   getVideoList (firstLoad = false) {
-    this.handleLoading(true);
-
     YTApiSearchService({key: API_KEY, term: this.state.term, maxResults: this.state.maxResults}, (response) => {
       this.setState({videos: response.items});
       this.makeSearch(response, firstLoad);
@@ -122,7 +120,7 @@ class App extends Component {
 
   handleVideoId (videoId) {
     if(videoId !== this.state.selectedVideo.id) {
-      this.handleLoading(true);
+      //this.handleLoading(true);
 
       this.getVideoDetail(videoId);
     }
@@ -155,30 +153,32 @@ class App extends Component {
   render () {
     let container;
 
-    if(this.state.loading){
-      container = <Loading />;
-    } else {
-      container = (
-        <div className="video-container-inner row">
-          <VideoDetail video={this.state.selectedVideo}
-                       channel={this.state.selectedChannel} />
-          <VideoList videos={this.state.videos}
-                     maxResults={this.state.maxResults}
-                     pageTokens={this.state.pageTokens}
-                     selectedVideoId = {this.state.selectedVideo.id}
-                     handlePagerToken={(pager) => this.handlePagerToken(pager)}
-                     handleChannelId={(channelId) => this.handleChannelId(channelId)}
-                     handleVideoId={(id) => this.handleVideoId(id)}
-                     loading={this.state.loadingVideoList}/>
-        </div>
-      );
-    }
+    container = (
+      <div className="video-container-inner row">
+        <VideoDetail video={this.state.selectedVideo}
+                     channel={this.state.selectedChannel} />
+        <VideoList videos={this.state.videos}
+                   maxResults={this.state.maxResults}
+                   pageTokens={this.state.pageTokens}
+                   selectedVideoId = {this.state.selectedVideo.id}
+                   handlePagerToken={(pager) => this.handlePagerToken(pager)}
+                   handleChannelId={(channelId) => this.handleChannelId(channelId)}
+                   handleVideoId={(id) => this.handleVideoId(id)}
+                   loading={this.state.loadingVideoList}/>
+      </div>
+    );
+
     return (
       <div className="video-app container">
-        <SearchArea value={this.state.term}
-                    handleInputChange={(term) => this.setSearchTerm(term)} />
-        <div className="video-container">
-          {container}
+        { this.state.loading === true && (
+          <Loading />
+        )}
+        <div className={(this.state.loading ? ' hide' : '')}>
+          <SearchArea value={this.state.term}
+                      handleInputChange={(term) => this.setSearchTerm(term)} />
+          <div className="video-container">
+            {container}
+          </div>
         </div>
       </div>
     );

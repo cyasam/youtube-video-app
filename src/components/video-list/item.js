@@ -1,7 +1,7 @@
 import React from 'react';
 import NumberFormat from 'react-number-format';
 
-const VideoItem = ({video}) => {
+const VideoItem = ({video,handleImageLoad}) => {
   if(!video.snippet || !video.statistics) {
     return null;
   }
@@ -11,7 +11,8 @@ const VideoItem = ({video}) => {
            src={video.snippet.thumbnails.default.url}
            width={video.snippet.thumbnails.default.width}
            height={video.snippet.thumbnails.default.height}
-           alt={video.snippet.title} />
+           alt={video.snippet.title}
+           onLoad={() => handleImageLoad(false)}/>
       <div className="media-body">
         <div className="video-title media-heading">{video.snippet.title}</div>
         <div className="channel-name">{video.snippet.channelTitle}</div>

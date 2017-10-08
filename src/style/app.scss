@@ -7,6 +7,10 @@ body {
   color: rgba($primary-color, 0.9);
 }
 
+.hide {
+  display: none!important;
+}
+
 #app {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -15,6 +19,9 @@ body {
 .video-app {
 
   .loading-wrapper {
+    position: absolute;
+    left: 0;
+    top:0;
     display: flex;
     justify-content: center;
     align-items: center;
