@@ -17,6 +17,7 @@ class App extends Component {
 
     this.state = {
       loading: true,
+      loadingVideoList: true,
       term: 'Vevo',
       selectedVideo: [],
       videos: [],
@@ -32,39 +33,56 @@ class App extends Component {
   }
 
   componentWillMount () {
-    this.getVideoList();
+    this.getVideoList(true);
   }
 
   handleLoading (loading) {
     this.setState({loading});
   }
 
-  makeSearch (response) {
-    const videos = response.items;
+  handleSearch (token = null) {
+    this.setState({loadingVideoList: true});
 
-    // Statistics data will add to videos array;
-    this.addStatisticsDataToVideoList(videos);
+    let data = {};
+    data.key = API_KEY;
+    data.maxResults = this.state.maxResults;
+    data.term = this.state.term;
+    data.pageToken = token;
 
-    let video = videos[0];
-
-    this.getVideoDetail(video.id.videoId);
-    this.handleChannelId(video.snippet.channelId);
-
-    // Page tokens will set to state
-    this.createPageToken(response);
+    YTApiSearchService(data, (response) => {
+      this.makeSearch(response);
+    });
   }
 
-  getVideoList () {
+  makeSearch (response, firstLoad) {
+    const videos = response.items;
+
+    if(videos.length) {
+      // Statistics data will add to videos array;
+      this.addStatisticsDataToVideoList(videos);
+
+      if (firstLoad) {
+        let video = videos[0];
+
+        this.getVideoDetail(video.id.videoId);
+        this.handleChannelId(video.snippet.channelId);
+      }
+
+      // Page tokens will set to state
+      this.createPageToken(response);
+    } else {
+      this.setState({videos});
+    }
+
+    this.setState({loadingVideoList: false});
+  }
+
+  getVideoList (firstLoad = false) {
     this.handleLoading(true);
 
     YTApiSearchService({key: API_KEY, term: this.state.term, maxResults: this.state.maxResults}, (response) => {
       this.setState({videos: response.items});
-
-      if(Object.keys(response.items).length > 0) {
-        this.makeSearch(response);
-      } else {
-        this.handleLoading(false);
-      }
+      this.makeSearch(response, firstLoad);
     });
   }
 
@@ -95,10 +113,10 @@ class App extends Component {
   }
 
   setSearchTerm (term) {
-    this.handleLoading(true);
+    this.setState({loadingVideoList: true});
 
     this.setState({term}, () => {
-      this.getVideoList();
+      this.handleSearch();
     });
   }
 
@@ -120,15 +138,7 @@ class App extends Component {
   }
 
   handlePagerToken (token) {
-    this.handleLoading(true);
-
-    YTApiSearchService({key: API_KEY, term: this.state.term, pageToken: token, maxResults: this.state.maxResults}, (response) => {
-      if(Object.keys(response.items).length > 0) {
-        this.makeSearch(response);
-      } else {
-        this.handleLoading(false);
-      }
-    });
+    this.handleSearch(token);
 
     // Window will scroll to top
     const animateScroll = new AnimateScroll();
@@ -158,7 +168,8 @@ class App extends Component {
                      selectedVideoId = {this.state.selectedVideo.id}
                      handlePagerToken={(pager) => this.handlePagerToken(pager)}
                      handleChannelId={(channelId) => this.handleChannelId(channelId)}
-                     handleVideoId={(id) => this.handleVideoId(id)} />
+                     handleVideoId={(id) => this.handleVideoId(id)}
+                     loading={this.state.loadingVideoList}/>
         </div>
       );
     }
