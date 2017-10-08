@@ -120,10 +120,12 @@ class App extends Component {
 
   handleVideoId (videoId) {
     if(videoId !== this.state.selectedVideo.id) {
-      //this.handleLoading(true);
-
       this.getVideoDetail(videoId);
     }
+
+    // Window will scroll to top
+    const animateScroll = new AnimateScroll();
+    animateScroll.scrollToY(0);
   }
 
   createPageToken (response) {
@@ -138,9 +140,11 @@ class App extends Component {
   handlePagerToken (token) {
     this.handleSearch(token);
 
+    const videoListEl = document.querySelectorAll('.video-list-wrapper');
+
     // Window will scroll to top
     const animateScroll = new AnimateScroll();
-    animateScroll.scrollToY(0);
+    animateScroll.scrollToY(videoListEl[0].offsetTop);
   }
 
   handleChannelId (channelId) {
