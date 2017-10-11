@@ -72,6 +72,15 @@ body {
       font-size: 0.8em;
     }
   }
+
+  .video-order {
+    margin-bottom: 10px;
+
+    button {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  }
   
   .pager {
     display: flex;

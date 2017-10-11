@@ -6,8 +6,8 @@ export const YTApiSearchService = (arg, callback) => {
     url: 'https://www.googleapis.com/youtube/v3/search',
     params: {
       part: 'snippet',
-      order: 'date',
-      q: arg.term || '',
+      order: arg.order,
+      q: arg.term,
       maxResults: arg.maxResults,
       type: 'video',
       videoDefinition: 'high',

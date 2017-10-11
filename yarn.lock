@@ -3159,6 +3159,10 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   dependencies:
     minimist "0.0.8"
 
+moment@^2.19.1:
+  version "2.19.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.1.tgz#56da1a2d1cbf01d38b7e1afc31c10bcfa1929167"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -3993,8 +3997,8 @@ rc@^1.1.7:
     strip-json-comments "~2.0.1"
 
 react-animate-height@^0.10.4:
-  version "0.10.4"
-  resolved "https://registry.yarnpkg.com/react-animate-height/-/react-animate-height-0.10.4.tgz#9dbfb06505fc3c69a07d752904198e320c6161a3"
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/react-animate-height/-/react-animate-height-0.10.5.tgz#32a2c895c589d975b1661c777170f81e573c0f42"
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.5.8"

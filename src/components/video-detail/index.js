@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import NumberFormat from 'react-number-format';
 import VideoPlayer from './player';
 import VideoDescription from './description';
@@ -15,18 +16,27 @@ const VideoDetail = (props) => {
         <VideoPlayer id={video.id} />
 
         <h4 className="head">{video.snippet.title}</h4>
+
         <div className="video-info">
-        <span className="channel-info media mr-4">
-          <span className="mr-2"><img src={channel.snippet.thumbnails.default.url} alt={channel.snippet.title} /></span>
-          <span className="media-body">{channel.snippet.title}</span>
-        </span>
-          <span className="view-info">
-          <i className="fa fa-user-o fa-lg mr-2" aria-hidden="true" />
-          <NumberFormat value={video.statistics.viewCount}
-                        displayType={'text'}
-                        thousandSeparator={true}
-                        suffix={' views'} />
-        </span>
+
+          <span className="channel-info media mr-4">
+            <span className="mr-2"><img src={channel.snippet.thumbnails.default.url} alt={channel.snippet.title} /></span>
+            <span className="media-body">{channel.snippet.title}</span>
+          </span>
+
+          <span className="view-info mr-4">
+            <i className="fa fa-user-o fa-lg mr-2" aria-hidden="true" />
+            <NumberFormat value={video.statistics.viewCount}
+                          displayType={'text'}
+                          thousandSeparator={true}
+                          suffix={' views'} />
+          </span>
+
+          <span className="date-info">
+            <i class="fa fa-calendar-o fa-lg mr-2" aria-hidden="true" />
+            {moment(video.snippet.publishedAt).format("dddd, MMMM Do YYYY, HH:mm")}
+          </span>
+
         </div>
         <VideoDescription value={video.snippet.description} />
       </div>

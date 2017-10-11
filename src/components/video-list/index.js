@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import Loading from '../loading';
-import VideoFilter from './filter';
+import VideoOrder from './order';
 import VideoItem from './item';
 
 class VideoList extends Component {
@@ -23,6 +23,10 @@ class VideoList extends Component {
     this.setState({loading});
   }
 
+  handleOrder(order){
+    this.props.handleOrder(order);
+  }
+
   render () {
     let result;
 
@@ -35,7 +39,7 @@ class VideoList extends Component {
           {this.state.loading === true && (
           <Loading/>
           )}
-          <VideoFilter />
+          <VideoOrder handleOrder={(order) => this.handleOrder(order)} />
           <ul className={"list-group" + (this.state.loading ? ' hide' : '')}>
             {videos.map((item, i) => (
               <li key={i} className={"list-group-item" + (item.id.videoId === selectedVideoId ? ' active' : '')}

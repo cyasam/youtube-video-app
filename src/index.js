@@ -27,7 +27,7 @@ class App extends Component {
       },
       selectedChannel:{},
       maxResults: API_MAX_RESULT,
-      filter: ''
+      order: 'viewCount'
     };
 
     this.handleSearch = debounce(this.handleSearch, 400);
@@ -79,7 +79,7 @@ class App extends Component {
   }
 
   getVideoList (firstLoad = false) {
-    YTApiSearchService({key: API_KEY, term: this.state.term, maxResults: this.state.maxResults}, (response) => {
+    YTApiSearchService({key: API_KEY, term: this.state.term, maxResults: this.state.maxResults, order: this.state.order}, (response) => {
       this.setState({videos: response.items});
       this.makeSearch(response, firstLoad);
     });
@@ -155,9 +155,10 @@ class App extends Component {
     });
   }
 
-  handleFilter(filter){
-    this.setState({filter});
-    YTApiSearchService({key: API_KEY, term: this.state.term, maxResults: this.state.maxResults, order: this.state.filter}, (response) => {
+  handleOrder(order){
+    this.setState({loadingVideoList: true});
+    this.setState({order});
+    YTApiSearchService({key: API_KEY, term: this.state.term, maxResults: this.state.maxResults, order: order}, (response) => {
       this.setState({videos: response.items});
       this.makeSearch(response);
     });
@@ -177,7 +178,8 @@ class App extends Component {
                    handlePagerToken={(pager) => this.handlePagerToken(pager)}
                    handleChannelId={(channelId) => this.handleChannelId(channelId)}
                    handleVideoId={(id) => this.handleVideoId(id)}
-                   loading={this.state.loadingVideoList}/>
+                   loading={this.state.loadingVideoList}
+                   handleOrder={(order) => this.handleOrder(order)}/>
       </div>
     );
 
