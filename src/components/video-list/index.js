@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import Loading from '../loading';
+import VideoFilter from './filter';
 import VideoItem from './item';
 
 class VideoList extends Component {
@@ -34,6 +35,7 @@ class VideoList extends Component {
           {this.state.loading === true && (
           <Loading/>
           )}
+          <VideoFilter />
           <ul className={"list-group" + (this.state.loading ? ' hide' : '')}>
             {videos.map((item, i) => (
               <li key={i} className={"list-group-item" + (item.id.videoId === selectedVideoId ? ' active' : '')}

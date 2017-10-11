@@ -26,7 +26,8 @@ class App extends Component {
         prevToken: null
       },
       selectedChannel:{},
-      maxResults: API_MAX_RESULT
+      maxResults: API_MAX_RESULT,
+      filter: ''
     };
 
     this.handleSearch = debounce(this.handleSearch, 400);
@@ -151,6 +152,14 @@ class App extends Component {
     YTApiChannelService({key: API_KEY, channelId: channelId}, (response) => {
       const selectedChannel = response.items[0];
       this.setState({selectedChannel});
+    });
+  }
+
+  handleFilter(filter){
+    this.setState({filter});
+    YTApiSearchService({key: API_KEY, term: this.state.term, maxResults: this.state.maxResults, order: this.state.filter}, (response) => {
+      this.setState({videos: response.items});
+      this.makeSearch(response);
     });
   }
 
