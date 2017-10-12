@@ -33,7 +33,7 @@ const VideoDetail = (props) => {
           </span>
 
           <span className="date-info">
-            <i class="fa fa-calendar-o fa-lg mr-2" aria-hidden="true" />
+            <i className="fa fa-calendar-o fa-lg mr-2" aria-hidden="true" />
             {moment(video.snippet.publishedAt).format("dddd, MMMM Do YYYY, HH:mm")}
           </span>
 

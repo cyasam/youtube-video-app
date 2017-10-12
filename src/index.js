@@ -49,6 +49,7 @@ class App extends Component {
     data.maxResults = this.state.maxResults;
     data.term = this.state.term;
     data.pageToken = token;
+    data.order = this.state.order;
 
     YTApiSearchService(data, (response) => {
       this.makeSearch(response);
@@ -179,7 +180,8 @@ class App extends Component {
                    handleChannelId={(channelId) => this.handleChannelId(channelId)}
                    handleVideoId={(id) => this.handleVideoId(id)}
                    loading={this.state.loadingVideoList}
-                   handleOrder={(order) => this.handleOrder(order)}/>
+                   handleOrder={(order) => this.handleOrder(order)}
+                   order={this.state.order}/>
       </div>
     );
 

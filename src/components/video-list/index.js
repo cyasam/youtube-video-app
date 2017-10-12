@@ -9,7 +9,8 @@ class VideoList extends Component {
 
     this.state = {
       loading: true,
-      videos: []
+      videos: [],
+      order: ''
     };
   }
 
@@ -17,6 +18,8 @@ class VideoList extends Component {
     if(nextProps.loading !== this.state.loading) {
       this.setState({loading: true});
     }
+
+    this.setState({order: nextProps.order});
   }
 
   handleImageLoad (loading) {
@@ -24,6 +27,7 @@ class VideoList extends Component {
   }
 
   handleOrder(order){
+    this.setState({order});
     this.props.handleOrder(order);
   }
 
@@ -39,7 +43,7 @@ class VideoList extends Component {
           {this.state.loading === true && (
           <Loading/>
           )}
-          <VideoOrder handleOrder={(order) => this.handleOrder(order)} />
+          <VideoOrder handleOrder={(order) => this.handleOrder(order)} order={this.state.order} />
           <ul className={"list-group" + (this.state.loading ? ' hide' : '')}>
             {videos.map((item, i) => (
               <li key={i} className={"list-group-item" + (item.id.videoId === selectedVideoId ? ' active' : '')}
