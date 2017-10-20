@@ -38,26 +38,27 @@ class VideoDetail extends Component {
 
             <h4 className="head">{video.snippet.title}</h4>
 
-            <div className="video-info">
+            <div className="video-info row">
 
-              <span className="channel-info media mr-4">
-                <span className="mr-2"><img src={channel.snippet.thumbnails.default.url}
-                                            alt={channel.snippet.title}/></span>
-                <span className="media-body">{channel.snippet.title}</span>
-              </span>
+              <div className="channel-info col-12 col-md-3 col-lg-3">
+                <div className="media">
+                  <span className="mr-2"><img src={channel.snippet.thumbnails.default.url}
+                                              alt={channel.snippet.title}/></span>
+                  <span className="media-body">{channel.snippet.title}</span>
+                </div>
+              </div>
 
-              <span className="view-info mr-4">
+              <div className="view-info col-12 col-md-3 col-lg-3">
                 <i className="fa fa-user-o fa-lg mr-2" aria-hidden="true" />
                 <NumberFormat value={video.statistics.viewCount}
                               displayType={'text'}
-                              thousandSeparator={true}
-                              suffix={' views'} />
-              </span>
+                              thousandSeparator={true} />
+              </div>
 
-              <span className="date-info">
+              <div className="date-info col-12 col-md-3 col-lg-4">
                 <i className="fa fa-calendar-o fa-lg mr-2" aria-hidden="true"/>
-                    {moment(video.snippet.publishedAt).format("dddd, MMMM Do YYYY, HH:mm")}
-              </span>
+                    {moment(video.snippet.publishedAt).format("DD.MM.YYYY, HH:mm")}
+              </div>
 
             </div>
             <VideoDescription value={video.snippet.description}/>
