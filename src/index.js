@@ -18,8 +18,9 @@ class App extends Component {
     this.state = {
       loading: true,
       loadingVideoList: true,
+      loadingVideoDetail: true,
       term: 'Vevo',
-      selectedVideo: [],
+      selectedVideo: {},
       videos: [],
       pageTokens: {
         nextToken: null,
@@ -104,6 +105,9 @@ class App extends Component {
       this.setState({selectedVideo});
 
       this.handleLoading(false);
+      this.setState({
+        loadingVideoDetail: false
+      })
     });
   }
 
@@ -121,6 +125,12 @@ class App extends Component {
   }
 
   handleVideoId (videoId) {
+    this.setState({
+      loadingVideoDetail: true,
+      selectedVideo: {},
+      selectedChannel: {}
+    });
+    
     if(videoId !== this.state.selectedVideo.id) {
       this.getVideoDetail(videoId);
     }
@@ -171,7 +181,8 @@ class App extends Component {
     container = (
       <div className="video-container-inner row">
         <VideoDetail video={this.state.selectedVideo}
-                     channel={this.state.selectedChannel} />
+                     channel={this.state.selectedChannel}
+                     loading={this.state.loadingVideoDetail}/>
         <VideoList videos={this.state.videos}
                    maxResults={this.state.maxResults}
                    pageTokens={this.state.pageTokens}
