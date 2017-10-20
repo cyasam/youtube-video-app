@@ -127,11 +127,14 @@ class App extends Component {
   handleVideoId (videoId) {
     this.setState({
       loadingVideoDetail: true,
-      selectedVideo: {},
-      selectedChannel: {}
     });
     
     if(videoId !== this.state.selectedVideo.id) {
+      this.setState({
+        selectedVideo: {},
+        selectedChannel: {}
+      });
+
       this.getVideoDetail(videoId);
     }
 

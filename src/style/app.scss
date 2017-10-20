@@ -51,6 +51,10 @@ body {
     position: relative;
   }
 
+  .video-detail-wrapper {
+    min-height: 400px;
+  }
+
   .video-list {
     font-size: 0.9em;
     color: $secondary-color;

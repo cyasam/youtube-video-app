@@ -26,9 +26,6 @@ class VideoDetail extends Component {
     const {video, channel} = this.props;
     let result;
 
-    if(this.state.loading) {
-      result = <Loading />;
-    } else {
       if (Object.keys(video).length === 0 || Object.keys(channel).length === 0) {
         result = null;
       } else {
@@ -65,10 +62,12 @@ class VideoDetail extends Component {
           </div>
         );
       }
-    }
 
     return (
       <div className="video-detail-wrapper col-lg-8 col-md-12">
+        {this.state.loading &&
+        <Loading/>
+        }
         {result}
       </div>
     );
